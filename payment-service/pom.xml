@@ -47,9 +47,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
+<!--				<configuration>
 					<mainClass>com.iprody.payment.service.PaymentServiceApplication</mainClass>
-				</configuration>
+				</configuration> -->
 			</plugin>
 		</plugins>
 	</build>
