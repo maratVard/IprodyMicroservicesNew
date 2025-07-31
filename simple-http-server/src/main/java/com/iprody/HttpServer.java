@@ -22,9 +22,9 @@ public final class HttpServer {
      * occurs when opening the socket or reading files
      */
     public static void main(final String[] args) throws IOException {
-        final int serverPort = 8080;
+        final int serverPort = 9090;
         ServerSocket serverSocket = new ServerSocket(serverPort);
-        System.out.println("Server started at http://localhost:8080");
+        System.out.println("Server started at http://localhost:9090");
 
         while (true) {
             Socket socket = serverSocket.accept();
