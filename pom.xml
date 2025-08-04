@@ -12,6 +12,7 @@
     <modules>
         <module>simple-http-server</module>
         <module>payment-service</module>
+        <module>payment-service/payment-service-app</module>
     </modules>
 
     <properties>
