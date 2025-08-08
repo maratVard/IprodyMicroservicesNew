@@ -13,8 +13,10 @@ public class Payment {
     @Column(nullable = false, unique = true)
     private UUID guid;
 
-    @Column(nullable = false, name = "inquiry_ref_id") private UUID inquiryRefId;
-    @Column(nullable = false, precision = 5, scale = 2) private BigDecimal amount;
+    @Column(nullable = false, name = "inquiry_ref_id")
+    private UUID inquiryRefId;
+    @Column(nullable = false, precision = 5, scale = 2)
+    private BigDecimal amount;
     @Column(nullable = false, length = 3)
     private String currency;
 
@@ -28,8 +30,10 @@ public class Payment {
     @Column(columnDefinition = "text")
     private String note;
 
-    @Column(name = "created_at", nullable = false) private OffsetDateTime createdAt;
-    @Column(name = "updated_at", nullable = false) private OffsetDateTime updatedAt;
+    @Column(name = "created_at", nullable = false)
+    private OffsetDateTime createdAt;
+    @Column(name = "updated_at", nullable = false)
+    private OffsetDateTime updatedAt;
     public Payment() {
     }
 
