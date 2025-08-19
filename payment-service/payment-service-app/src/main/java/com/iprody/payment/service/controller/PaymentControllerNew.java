@@ -32,6 +32,6 @@ public class PaymentControllerNew {
                 : Sort.by(sortBy).ascending();
 
         Pageable pageable = PageRequest.of(page, size, sort);
-        return paymentService.search(filter, pageable);
+        return paymentService.searchPaged(filter, pageable);
     }
 }
