@@ -3,6 +3,7 @@ package com.iprody.payment.service.dto;
 import com.iprody.payment.service.persistence.entity.PaymentStatus;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 public class PaymentDto {
@@ -16,6 +17,12 @@ public class PaymentDto {
     private String note;
     private Instant createdAt;
     private Instant updatedAt;
+
+    public PaymentDto() {};
+
+    public PaymentDto(UUID id, BigDecimal bigDecimal, String eur, String ref456,
+             PaymentStatus paymentStatus, OffsetDateTime now, OffsetDateTime now1) {
+    }
 
     public UUID getGuid() {
         return guid;
