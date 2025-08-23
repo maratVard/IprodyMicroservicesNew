@@ -2,6 +2,7 @@ package com.iprody.payment.service.controller;
 
 import com.iprody.payment.service.persistence.PaymentRepository;
 import com.iprody.payment.service.persistence.entity.Payment;
+import com.iprody.payment.service.persistence.entity.PaymentStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
