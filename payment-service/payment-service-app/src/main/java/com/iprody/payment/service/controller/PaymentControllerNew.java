@@ -7,15 +7,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.UUID;
 
 @RestController
@@ -76,5 +69,21 @@ public class PaymentControllerNew {
     @ResponseStatus(HttpStatus.NO_CONTENT) // 204
     public void delete(@PathVariable UUID id) {
         paymentService.delete(id);
+    }
+
+    /**
+     * Обновление комментария
+     */
+    @PatchMapping("/{id}/note")
+    @ResponseStatus(HttpStatus.OK) // 200
+    public PaymentDto updateNote(@PathVariable UUID id, @RequestBody String note) {
+        // Получаем текущий DTO
+        PaymentDto existing = paymentService.get(id);
+
+        // Обновляем только note
+        existing.setNote(note);
+
+        // Сохраняем обновлённый объект через update
+        return paymentService.update(id, existing);
     }
 }
