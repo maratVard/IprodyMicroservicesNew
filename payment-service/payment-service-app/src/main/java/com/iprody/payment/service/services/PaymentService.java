@@ -22,32 +22,55 @@ public class PaymentService {
     private final PaymentMapper paymentMapper;
 
     @Autowired
-    public PaymentService(PaymentRepository paymentRepository,PaymentMapper paymentMapper) {
+    public PaymentService(PaymentRepository paymentRepository,
+                          PaymentMapper paymentMapper) {
         this.paymentRepository = paymentRepository;
         this.paymentMapper = paymentMapper;
     }
 
+    /**
+     * Создание платежа
+     */
+    public PaymentDto create(PaymentDto dto) {
+        Payment entity = paymentMapper.toEntity(dto);
+        Payment saved = paymentRepository.save(entity);
+        return paymentMapper.toDto(saved);
+    }
+
+    /**
+     * Получение платежа по ID
+     */
     public PaymentDto get(UUID id) {
         return paymentRepository.findById(id)
                 .map(paymentMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException("Платеж не найден: " + id));
+                .orElseThrow(() -> new IllegalArgumentException("Платеж не найден: " + id));
     }
-    public Page<PaymentDto> searchPaged(PaymentFilter filter, Pageable pageable) {
+
+    /**
+     * Поиск платежей с фильтрацией, сортировкой и пагинацией
+     */
+    public Page<PaymentDto> search(PaymentFilter filter, Pageable pageable) {
         Specification<Payment> spec = PaymentFilterFactory.fromFilter(filter);
         Page<Payment> page = paymentRepository.findAll(spec, pageable);
         return page.map(paymentMapper::toDto);
     }
 
-    public PaymentDto update(UUID id, PaymentDto paymentDto) {
+    /**
+     * Обновление платежа
+     */
+    public PaymentDto update(UUID id, PaymentDto dto) {
         Payment existing = paymentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Платеж не найден: " + id));
 
-        paymentMapper.updateEntityFromDto(paymentDto, existing);
+        paymentMapper.updateEntityFromDto(dto, existing);
 
         Payment updated = paymentRepository.save(existing);
         return paymentMapper.toDto(updated);
     }
 
+    /**
+     * Удаление платежа
+     */
     public void delete(UUID id) {
         if (!paymentRepository.existsById(id)) {
             throw new EntityNotFoundException("Платеж не найден: " + id);
