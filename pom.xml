@@ -19,7 +19,7 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <start-class>com.iprody.payment.service.PaymentServiceApplication</start-class>
+        <start-class>com.iprody.payment.service.app.PaymentServiceApplication</start-class>
     </properties>
 
 </project>

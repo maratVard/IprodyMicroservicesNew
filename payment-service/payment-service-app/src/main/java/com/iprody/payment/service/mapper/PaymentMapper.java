@@ -18,10 +18,16 @@ public interface PaymentMapper {
     void updateEntityFromDto(PaymentDto paymentDto, @MappingTarget Payment payment);
 
     default Instant map(OffsetDateTime value) {
-        return value == null ? null : value.toInstant();
+        if (value == null) {
+            return null;
+        }
+        return value.toInstant();
     }
 
     default OffsetDateTime map(Instant value) {
-        return value == null ? null : OffsetDateTime.ofInstant(value, java.time.ZoneOffset.UTC);
+        if (value == null) {
+            return null;
+        }
+        return OffsetDateTime.ofInstant(value, java.time.ZoneOffset.UTC);
     }
 }
