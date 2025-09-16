@@ -18,10 +18,8 @@ public class PaymentDto {
     private Instant createdAt;
     private Instant updatedAt;
 
-    public PaymentDto() {};
-
     public PaymentDto(UUID id, BigDecimal bigDecimal, String eur, String ref456,
-             PaymentStatus paymentStatus, OffsetDateTime now, OffsetDateTime now1) {
+        PaymentStatus paymentStatus, OffsetDateTime now, OffsetDateTime now1) {
     }
 
     public UUID getGuid() {
@@ -42,10 +40,7 @@ public class PaymentDto {
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
-    public String getCurrency() {
-
-        return currency;
-    }
+    public String getCurrency() { return currency; }
     public void setCurrency(String currency) {
         this.currency = currency;
     }

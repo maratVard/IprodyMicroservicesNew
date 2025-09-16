@@ -2,8 +2,9 @@ package com.iprody.payment.service.controller;
 
 import com.iprody.payment.service.dto.PaymentDto;
 import com.iprody.payment.service.persistence.PaymentFilter;
+import com.iprody.payment.service.services.ErrorDto;
 import com.iprody.payment.service.services.PaymentService;
-import jakarta.persistence.EntityNotFoundException;
+import com.iprody.payment.service.exeption.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -39,7 +40,7 @@ public class PaymentControllerNew {
         try {
             return paymentService.get(id);
         } catch (IllegalArgumentException e) {
-            throw new EntityNotFoundException("Платеж не найден: " + id);
+            throw new EntityNotFoundException("Платеж не найден: ", "Update",id);
         }
     }
 
@@ -57,8 +58,7 @@ public class PaymentControllerNew {
      */
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK) // 200
-    public PaymentDto update(@PathVariable UUID id,
-                             @RequestBody PaymentDto dto) {
+    public PaymentDto update(@PathVariable UUID id, @RequestBody PaymentDto dto) {
         return paymentService.update(id, dto);
     }
 
@@ -78,12 +78,18 @@ public class PaymentControllerNew {
     @ResponseStatus(HttpStatus.OK) // 200
     public PaymentDto updateNote(@PathVariable UUID id, @RequestBody String note) {
         // Получаем текущий DTO
-        PaymentDto existing = paymentService.get(id);
+        final PaymentDto existing = paymentService.get(id);
 
         // Обновляем только note
         existing.setNote(note);
 
         // Сохраняем обновлённый объект через update
         return paymentService.update(id, existing);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorDto notFoundExeptionHandler(EntityNotFoundException ex) {
+        return new ErrorDto (ex.getMessage(),"findById", ex.getEntityId());
     }
 }

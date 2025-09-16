@@ -59,7 +59,15 @@ public class PaymentServiceTest {
         payment.setCreatedAt(OffsetDateTime.now());
         payment.setUpdatedAt(OffsetDateTime.now());
 
-        paymentDto = new PaymentDto();
+        paymentDto = new PaymentDto(
+                payment.getGuid(),
+                payment.getAmount(),
+                payment.getCurrency(),
+                payment.getNote(),
+                payment.getStatus(),
+                payment.getCreatedAt(),
+                payment.getUpdatedAt()
+        );
         paymentDto.setGuid(payment.getGuid());
         paymentDto.setCurrency(payment.getCurrency());
         paymentDto.setStatus(payment.getStatus());
