@@ -1,31 +1,95 @@
 package com.iprody.payment.service.controller;
 
-import com.iprody.payment.service.persistence.PaymentRepository;
-import com.iprody.payment.service.persistence.entity.Payment;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import com.iprody.payment.service.dto.PaymentDto;
+import com.iprody.payment.service.persistence.PaymentFilter;
+import com.iprody.payment.service.services.ErrorDto;
+import com.iprody.payment.service.services.PaymentService;
+import com.iprody.payment.service.exeption.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/payments")
 public class PaymentController {
 
-    @Autowired
-    private PaymentRepository paymentRepository;
+    private final PaymentService paymentService;
 
-    // Получение всех платежей: http://localhost:8088/payments
-    @GetMapping
-    public List<Payment> getAll() {
-        return paymentRepository.findAll();
+    public PaymentController(PaymentService paymentService) {
+        this.paymentService = paymentService;
     }
 
-    // Получение платежа по guid: http://localhost:8088/payments/{guid}
-    @GetMapping("/{guid}")
-    public ResponseEntity<Payment> getByID(@PathVariable UUID guid) {
-        return paymentRepository.findById(guid)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    /**
+     * Создание нового платежа
+     */
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED) // 201
+    public PaymentDto create(@RequestBody PaymentDto dto) {
+        return paymentService.create(dto);
+    }
+
+    /**
+     * Получение платежа по ID
+     */
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK) // 200
+    public PaymentDto get(@PathVariable UUID id) {
+        try {
+            return paymentService.get(id);
+        } catch (IllegalArgumentException e) {
+            throw new EntityNotFoundException("Платеж не найден: ", "Update",id);
+        }
+    }
+
+    /**
+     * Поиск с фильтрацией, сортировкой и пагинацией
+     */
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK) // 200
+    public Page<PaymentDto> search(PaymentFilter filter, Pageable pageable) {
+        return paymentService.search(filter, pageable);
+    }
+
+    /**
+     * Обновление платежа
+     */
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK) // 200
+    public PaymentDto update(@PathVariable UUID id, @RequestBody PaymentDto dto) {
+        return paymentService.update(id, dto);
+    }
+
+    /**
+     * Удаление платежа
+     */
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT) // 204
+    public void delete(@PathVariable UUID id) {
+        paymentService.delete(id);
+    }
+
+    /**
+     * Обновление комментария
+     */
+    @PatchMapping("/{id}/note")
+    @ResponseStatus(HttpStatus.OK) // 200
+    public PaymentDto updateNote(@PathVariable UUID id, @RequestBody String note) {
+        // Получаем текущий DTO
+        final PaymentDto existing = paymentService.get(id);
+
+        // Обновляем только note
+        existing.setNote(note);
+
+        // Сохраняем обновлённый объект через update
+        return paymentService.update(id, existing);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorDto notFoundExeptionHandler(EntityNotFoundException ex) {
+        return new ErrorDto (ex.getMessage(),"findById", ex.getEntityId());
     }
 }
