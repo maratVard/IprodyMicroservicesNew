@@ -8,6 +8,7 @@ import com.iprody.payment.service.exeption.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -27,6 +28,7 @@ public class PaymentController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // 201
+    @PreAuthorize("hasRole('admin')")
     public PaymentDto create(@RequestBody PaymentDto dto) {
         return paymentService.create(dto);
     }
@@ -35,6 +37,7 @@ public class PaymentController {
      * Получение платежа по ID
      */
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('admin', 'reader')")
     @ResponseStatus(HttpStatus.OK) // 200
     public PaymentDto get(@PathVariable UUID id) {
         try {
@@ -48,6 +51,7 @@ public class PaymentController {
      * Поиск с фильтрацией, сортировкой и пагинацией
      */
     @GetMapping
+    @PreAuthorize("hasAnyRole('admin', 'reader')")
     @ResponseStatus(HttpStatus.OK) // 200
     public Page<PaymentDto> search(PaymentFilter filter, Pageable pageable) {
         return paymentService.search(filter, pageable);
@@ -57,6 +61,7 @@ public class PaymentController {
      * Обновление платежа
      */
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('admin')")
     @ResponseStatus(HttpStatus.OK) // 200
     public PaymentDto update(@PathVariable UUID id, @RequestBody PaymentDto dto) {
         return paymentService.update(id, dto);
@@ -66,6 +71,7 @@ public class PaymentController {
      * Удаление платежа
      */
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('admin')")
     @ResponseStatus(HttpStatus.NO_CONTENT) // 204
     public void delete(@PathVariable UUID id) {
         paymentService.delete(id);
@@ -75,6 +81,7 @@ public class PaymentController {
      * Обновление комментария
      */
     @PatchMapping("/{id}/note")
+    @PreAuthorize("hasAnyRole('admin', 'reader')")
     @ResponseStatus(HttpStatus.OK) // 200
     public PaymentDto updateNote(@PathVariable UUID id, @RequestBody String note) {
         // Получаем текущий DTO
