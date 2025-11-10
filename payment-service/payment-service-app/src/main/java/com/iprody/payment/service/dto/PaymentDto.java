@@ -22,6 +22,10 @@ public class PaymentDto {
         PaymentStatus paymentStatus, OffsetDateTime now, OffsetDateTime now1) {
     }
 
+    public PaymentDto() {
+
+    }
+
     public UUID getGuid() {
         return guid;
     }
