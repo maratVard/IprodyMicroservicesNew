@@ -23,7 +23,6 @@ public class PaymentDto {
     }
 
     public PaymentDto() {
-
     }
 
     public UUID getGuid() {
