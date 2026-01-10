@@ -14,6 +14,7 @@ public class InMemoryXPaymentAdapterMessageBroker implements AsyncSender<XPaymen
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
     private final AsyncListener<XPaymentAdapterResponseMessage> resultListener;
 
+    @Autowired
     public InMemoryXPaymentAdapterMessageBroker(AsyncListener<XPaymentAdapterResponseMessage> resultListener) {
         this.resultListener = resultListener;
     }

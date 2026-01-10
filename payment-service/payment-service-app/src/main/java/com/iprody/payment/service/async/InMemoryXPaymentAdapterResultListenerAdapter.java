@@ -9,6 +9,7 @@ public class InMemoryXPaymentAdapterResultListenerAdapter implements
 
     private final MassageHandler<XPaymentAdapterResponseMessage> handler;
 
+    @Autowired
     public InMemoryXPaymentAdapterResultListenerAdapter(MassageHandler<XPaymentAdapterResponseMessage> handler) {
         this.handler = handler;
     }
