@@ -1,5 +1,8 @@
 package com.iprody.payment.service.services;
 
+import com.iprody.payment.service.async.AsyncSender;
+import com.iprody.payment.service.async.XPaymentAdapterMapper;
+import com.iprody.payment.service.async.XPaymentAdapterRequestMessage;
 import com.iprody.payment.service.dto.PaymentDto;
 import com.iprody.payment.service.mapper.PaymentMapper;
 import com.iprody.payment.service.persistence.PaymentFilter;
@@ -19,20 +22,30 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final PaymentMapper paymentMapper;
+    private final XPaymentAdapterMapper xPaymentAdapterMapper;
+    private final AsyncSender<XPaymentAdapterRequestMessage> sender;
 
     @Autowired
-    public PaymentService(PaymentRepository paymentRepository, PaymentMapper paymentMapper) {
+    public PaymentService(PaymentRepository paymentRepository, PaymentMapper paymentMapper, XPaymentAdapterMapper xPaymentAdapterMapper, AsyncSender<XPaymentAdapterRequestMessage> sender) {
         this.paymentRepository = paymentRepository;
         this.paymentMapper = paymentMapper;
+        this.xPaymentAdapterMapper = xPaymentAdapterMapper;
+        this.sender = sender;
     }
 
     /**
      * Создание платежа
      */
     public PaymentDto create(PaymentDto dto) {
-        final Payment entity = paymentMapper.toEntity(dto);
-        final Payment saved = paymentRepository.save(entity);
-        return paymentMapper.toDto(saved);
+        Payment entity = paymentMapper.toEntity(dto);
+        Payment saved = paymentRepository.save(entity);
+        PaymentDto resultDto = paymentMapper.toDto(saved);
+
+    // Добавляем отправку сообщения
+        XPaymentAdapterRequestMessage requestMessage =
+                XPaymentAdapterMapper.toXPaymentAdapterRequestMessage(entity);
+        sender.send(requestMessage);
+        return resultDto;
     }
 
     /**
