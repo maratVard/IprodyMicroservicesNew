@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 public class InMemoryXPaymentAdapterResultListenerAdapter implements
         AsyncListener<XPaymentAdapterResponseMessage> {
 
-    private final MassageHandler<XPaymentAdapterResponseMessage> handler;
+    private final MessageHandler<XPaymentAdapterResponseMessage> handler;
 
     @Autowired
-    public InMemoryXPaymentAdapterResultListenerAdapter(MassageHandler<XPaymentAdapterResponseMessage> handler) {
+    public InMemoryXPaymentAdapterResultListenerAdapter(MessageHandler<XPaymentAdapterResponseMessage> handler) {
         this.handler = handler;
     }
 

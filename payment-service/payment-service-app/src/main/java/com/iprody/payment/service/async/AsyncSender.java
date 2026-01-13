@@ -1,6 +1,6 @@
 package com.iprody.payment.service.async;
 
-public interface AsyncSender<T extends Massage> {
+public interface AsyncSender<T extends Message> {
     /**
      * Отправляет сообщение.
      *

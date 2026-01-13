@@ -1,6 +1,6 @@
 package com.iprody.payment.service.async;
 
-public interface AsyncListener<T extends Massage> {
+public interface AsyncListener<T extends Message> {
     /**
      * Вызывается для каждого нового входящего сообщения.
      *

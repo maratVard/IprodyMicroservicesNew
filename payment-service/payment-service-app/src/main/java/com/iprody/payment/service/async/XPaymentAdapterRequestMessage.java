@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public class XPaymentAdapterRequestMessage implements Massage{
+public class XPaymentAdapterRequestMessage implements Message {
     /**
      * Сообщение-запрос для платёжной системы X Payment.
      * <p>
@@ -12,7 +12,7 @@ public class XPaymentAdapterRequestMessage implements Massage{
      идентификаторы,
 
      * сумму, валюту и время возникновения события.
-     * Реализует интерфейс {@link Massage}, обеспечивая уникальный
+     * Реализует интерфейс {@link Message}, обеспечивая уникальный
      идентификатор сообщения
      * и метку времени его возникновения.
 
