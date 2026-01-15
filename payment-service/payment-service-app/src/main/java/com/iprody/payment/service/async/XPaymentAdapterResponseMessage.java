@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public class XPaymentAdapterResponseMessage implements Massage{
+public class XPaymentAdapterResponseMessage implements Message {
     /**
      * Уникальный идентификатор сообщения.
      */

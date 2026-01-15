@@ -41,9 +41,8 @@ public class PaymentService {
         Payment saved = paymentRepository.save(entity);
         PaymentDto resultDto = paymentMapper.toDto(saved);
 
-    // Добавляем отправку сообщения
         XPaymentAdapterRequestMessage requestMessage =
-                XPaymentAdapterMapper.toXPaymentAdapterRequestMessage(entity);
+                xPaymentAdapterMapper.toXPaymentAdapterRequestMessage(entity);
         sender.send(requestMessage);
         return resultDto;
     }

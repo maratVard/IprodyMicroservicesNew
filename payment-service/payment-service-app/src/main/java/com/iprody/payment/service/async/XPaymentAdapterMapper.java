@@ -10,6 +10,5 @@ public interface XPaymentAdapterMapper {
     @Mapping(source = "amount", target = "amount")
     @Mapping(source = "currency", target = "currency")
     @Mapping(source = "updatedAt", target = "occurredAt")
-    XPaymentAdapterRequestMessage
-    toXPaymentAdapterRequestMessage(Payment payment);
+    XPaymentAdapterRequestMessage toXPaymentAdapterRequestMessage (Payment payment);
 }

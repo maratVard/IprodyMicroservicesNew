@@ -1,6 +1,6 @@
 package com.iprody.payment.service.async;
 
-public interface MassageHandler <T extends Massage> {
+public interface MessageHandler<T extends Message> {
     /**
      * Обрабатывает переданное сообщение.
      *
