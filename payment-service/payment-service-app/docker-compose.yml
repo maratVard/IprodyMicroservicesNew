@@ -1,6 +1,5 @@
-version: '3.8'
-
 services:
+
   payment-service:
     image: payment-service:0.0.1
     ports:
@@ -46,11 +45,12 @@ services:
       - "8085:8080"
     volumes:
       - ./realm-export.json:/opt/keycloak/data/import/realm-export.json
+
   kafka:
     image: bitnami/kafka:4.0.0
     container_name: kafka
     ports:
-      - "9092:9092" # для клиентов из docker-сети (Kafka UI, другиесервисы)
+      - "9092:9092" # для клиентов из docker-сети (Kafka UI, другие сервисы)
       - "9093:9093" # для внешних клиентов (ваш хост)
     environment:
       - KAFKA_ENABLE_KRAFT=yes
@@ -61,7 +61,7 @@ services:
       # слушатели
       - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,EXTERNAL://:9093,CONTROLLER://:9094
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
-      # рекламируем: внутри докера - kafka:9092, снаружи -localhost:9093
+      # рекламируем: внутри докера - kafka:9092, снаружи - localhost:9093
       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,EXTERNAL://localhost:9093
       # брокеры общаются через PLAINTEXT (у вас кластер из одного узла)
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
@@ -79,6 +79,8 @@ services:
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
     depends_on:
       - kafka
+
 volumes:
-   pgdata:
-   kafka_data:
+ pgdata:
+ # ДОБАВИТЬ
+ kafka_data:
