@@ -9,7 +9,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-public class KafkaXPaymentAdapterRequestSender implements AsyncSender<XPaymentAdapterRequestMessage> {
+class KafkaXPaymentAdapterRequestSender implements AsyncSender<XPaymentAdapterRequestMessage> {
 
     private static final Logger log = LoggerFactory.getLogger(KafkaXPaymentAdapterRequestSender.class);
     private final KafkaTemplate<String, XPaymentAdapterRequestMessage> template;

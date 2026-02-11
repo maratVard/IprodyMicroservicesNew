@@ -11,7 +11,7 @@ import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
 @Component
-public class KafkaXPaymentAdapterResultListenerAdapter implements AsyncListener<XPaymentAdapterResponseMessage> {
+class KafkaXPaymentAdapterResultListenerAdapter implements AsyncListener<XPaymentAdapterResponseMessage> {
 
     private static final Logger log = LoggerFactory.getLogger(KafkaXPaymentAdapterResultListenerAdapter.class);
     private final MessageHandler<XPaymentAdapterResponseMessage> handler;
