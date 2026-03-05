@@ -15,8 +15,8 @@ class KafkaXPaymentAdapterRequestSender implements AsyncSender<XPaymentAdapterRe
     private final KafkaTemplate<String, XPaymentAdapterRequestMessage> template;
     private final String topic;
 
-    public KafkaXPaymentAdapterRequestSender(KafkaTemplate<String, XPaymentAdapterRequestMessage> template,
-            @Value("${app.kafka.topics.xpayment-adapter.request:xpayment-adapter.requests}") String topic) {
+    public KafkaXPaymentAdapterRequestSender(KafkaTemplate<String,XPaymentAdapterRequestMessage> template,
+        @Value("${app.kafka.topics.xpayment-adapter.request:xpayment-adapter.requests}") String topic){
         this.template = template;
         this.topic = topic;
 }
