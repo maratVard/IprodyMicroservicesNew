@@ -11,14 +11,15 @@ import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
 @Component
-class KafkaXPaymentAdapterResultListenerAdapter implements AsyncListener<XPaymentAdapterResponseMessage> {
+class KafkaXPaymentAdapterResultListenerAdapter
+        implements AsyncListener<XPaymentAdapterResponseMessage> {
 
-    private static final Logger log = LoggerFactory.getLogger(KafkaXPaymentAdapterResultListenerAdapter.class);
+    private static final Logger log = LoggerFactory.getLogger
+            (KafkaXPaymentAdapterResultListenerAdapter.class);
     private final MessageHandler<XPaymentAdapterResponseMessage> handler;
 
-    public KafkaXPaymentAdapterResultListenerAdapter(MessageHandler<XPaymentAdapterResponseMessage> handler) {
-        this.handler = handler;
-    }
+    public KafkaXPaymentAdapterResultListenerAdapter
+            (MessageHandler<XPaymentAdapterResponseMessage> handler) {this.handler = handler;}
 
     @Override
     public void onMessage(XPaymentAdapterResponseMessage message) {
@@ -30,12 +31,13 @@ class KafkaXPaymentAdapterResultListenerAdapter implements AsyncListener<XPaymen
     public void consume(XPaymentAdapterResponseMessage message, ConsumerRecord<String,
                         XPaymentAdapterResponseMessage> record, Acknowledgment ack) {
         try {
-            log.info("Received XPayment Adapter response:paymentGuid={}, status={}, partition={}, offset={}",
+            log.info("Received XPayment Adapter response: paymentGuid={}, status={}, partition={}, offset={}",
                     message.getPaymentGuid(), message.getStatus(), record.partition(), record.offset());
             onMessage(message);
             ack.acknowledge();
         } catch (Exception e) {
-            log.error("Error handling XPayment Adapter response for paymentGuid={}", message.getPaymentGuid(), e);
+            log.error("Error handling XPayment Adapter response for paymentGuid={}",
+                    message.getPaymentGuid(), e);
             throw e; // отдаём в error handler Spring Kafka
         }
     }

@@ -9,12 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
+
 public class PaymentMessageHandler
         implements MessageHandler<XPaymentAdapterResponseMessage> {
 

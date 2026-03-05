@@ -15,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.iprody.payment.service.exeption.EntityNotFoundException;
+
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Service
@@ -38,6 +40,9 @@ public class PaymentService {
      */
     public PaymentDto create(PaymentDto dto) {
         Payment entity = paymentMapper.toEntity(dto);
+        entity.setGuid(UUID.randomUUID());
+        entity.setCreatedAt(OffsetDateTime.now());
+        entity.setUpdatedAt(OffsetDateTime.now());
         Payment saved = paymentRepository.save(entity);
         PaymentDto resultDto = paymentMapper.toDto(saved);
 
