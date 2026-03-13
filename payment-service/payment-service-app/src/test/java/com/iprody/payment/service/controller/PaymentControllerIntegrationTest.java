@@ -2,7 +2,6 @@ package com.iprody.payment.service.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iprody.payment.service.TestJwtFactory;
-import com.iprody.payment.service.AbstractPostgresIntegrationTest;
 import com.iprody.payment.service.dto.PaymentDto;
 import com.iprody.payment.service.persistence.entity.Payment;
 import com.iprody.payment.service.persistence.entity.PaymentStatus;
