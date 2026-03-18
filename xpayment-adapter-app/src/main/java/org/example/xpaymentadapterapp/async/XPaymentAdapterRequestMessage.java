@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public class XpaymentAdapterRequestMessage implements Message{
+public class XPaymentAdapterRequestMessage implements Message{
 
     /**
      * Сообщение-запрос для платёжной системы X Payment.
