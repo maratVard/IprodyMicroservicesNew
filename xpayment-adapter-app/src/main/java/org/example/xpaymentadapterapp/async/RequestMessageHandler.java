@@ -1,6 +1,8 @@
-package com.iprody.payment.service.async;
+package org.example.xpaymentadapterapp.async;
 
 import jakarta.annotation.PreDestroy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.time.OffsetDateTime;
@@ -11,6 +13,8 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 public class RequestMessageHandler implements MessageHandler<XPaymentAdapterRequestMessage> {
+    private static Logger logger = LoggerFactory.getLogger(RequestMessageHandler.class);
+
     private final AsyncSender<XPaymentAdapterResponseMessage> sender;
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
@@ -20,6 +24,8 @@ public class RequestMessageHandler implements MessageHandler<XPaymentAdapterRequ
     }
     @Override
     public void handle(XPaymentAdapterRequestMessage message) {
+        logger.info("Received request: messageId - {}, amount - {}, currency - {}",
+                message.getMessageId(), message.getAmount(), message.getCurrency());
         scheduler.schedule(() -> {
             XPaymentAdapterResponseMessage responseMessage = new XPaymentAdapterResponseMessage();
             responseMessage.setPaymentGuid(message.getPaymentGuid());
@@ -28,6 +34,9 @@ public class RequestMessageHandler implements MessageHandler<XPaymentAdapterRequ
             responseMessage.setStatus(XPaymentAdapterStatus.SUCCEEDED);
             responseMessage.setTransactionRefId(UUID.randomUUID());
             responseMessage.setOccurredAt(OffsetDateTime.now());
+
+            logger.info("Sending response: messageId - {}, value - {}, currency - {}",
+                    message.getMessageId(), message.getAmount(), message.getCurrency());
             sender.send(responseMessage);
         }, 10, TimeUnit.SECONDS);
     }
