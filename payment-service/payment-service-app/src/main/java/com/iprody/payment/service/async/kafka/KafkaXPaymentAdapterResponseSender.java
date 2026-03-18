@@ -9,14 +9,14 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-class KafkaXPaymentAdapterRequestSender implements AsyncSender<XPaymentAdapterRequestMessage> {
+class KafkaXPaymentAdapterResponseSender implements AsyncSender<XPaymentAdapterRequestMessage> {
 
-    private static final Logger log = LoggerFactory.getLogger(KafkaXPaymentAdapterRequestSender.class);
+    private static final Logger log = LoggerFactory.getLogger(KafkaXPaymentAdapterResponseSender.class);
     private final KafkaTemplate<String, XPaymentAdapterRequestMessage> template;
     private final String topic;
 
-    public KafkaXPaymentAdapterRequestSender(KafkaTemplate<String,XPaymentAdapterRequestMessage> template,
-        @Value("${app.kafka.topics.xpayment-adapter.request:xpayment-adapter.requests}") String topic){
+    public KafkaXPaymentAdapterResponseSender(KafkaTemplate<String,XPaymentAdapterRequestMessage> template,
+                                              @Value("${app.kafka.topics.xpayment-adapter.response:xpayment-adapter.response}") String topic){
         this.template = template;
         this.topic = topic;
 }
